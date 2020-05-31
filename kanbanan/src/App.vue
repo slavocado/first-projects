@@ -7,50 +7,121 @@
           placeholder="Enter Task"
           @keyup.enter="add"
         />
-        <b-button class="ml-2" variant="primary" @click="add"> Add </b-button>
+        <b-button class="ml-2" variant="warning" @click="add"> Add </b-button>
       </div>
+
+      <div class="col mb-2">
+        <h1 class="text-right">Kanbanan 🍌</h1>
+      </div>
+      <!-- <div>
+        <b-button v-b-modal.modal-2>Launch demo modal</b-button>
+
+        <b-modal id="modal-2" title="BootstrapVue">
+          <p class="my-4">Hello from modal!</p>
+        </b-modal>
+      </div> -->
     </div>
+
     <div class="row mt-3">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="p-2 alert alert-primary">
-          <h3>To Do</h3>
-          <draggable class="list-group" :list="arrPlan" group="tasks">
+          <h2>To Do ( {{ column[0].length }} )</h2>
+
+          <draggable class="list-group" :list="column[0]" group="tasks">
             <div
-              class="list-group-item"
-              v-for="element in arrPlan"
-              :key="element.name"
+              class="list-group-item container"
+              v-for="(element, index) in column[0]"
+              :key="element.task"
             >
-              {{ element.name }}
+              <div class="row mb-3">
+                <!-- Title -->
+                <h4 class="col mb-0 h4">Task #{{ element.id }}</h4>
+
+                <!-- Edit button -->
+                <b-button
+                  class="pl-2 pr-2 mr-2"
+                  variant="warning"
+                  @click="moveToNextCol(0, index)"
+                >
+                  <b-icon icon="pencil" aria-hidden="true"></b-icon>
+                </b-button>
+
+                <!-- Button whitch move card to next column -->
+                <b-button
+                  class="pl-2 pr-2"
+                  variant="success"
+                  @click="moveToNextCol(0, index)"
+                >
+                  <b-icon icon="check2" aria-hidden="true"></b-icon>
+                </b-button>
+              </div>
+
+              <!-- Task -->
+              <div class="row task">
+                <p class="col text-truncate mb-0">{{ element.task }}</p>
+              </div>
             </div>
           </draggable>
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="p-2 alert alert-warning">
-          <h3>In Work</h3>
-          <draggable class="list-group" :list="arrInProgress" group="tasks">
+          <h2>In Work ( {{ column[1].length }} )</h2>
+
+          <draggable class="list-group" :list="column[1]" group="tasks">
             <div
-              class="list-group-item"
-              v-for="element in arrInProgress"
-              :key="element.name"
+              class="list-group-item container"
+              v-for="(element, index) in column[1]"
+              :key="element.task"
             >
-              {{ element.name }}
+              <div class="row mb-3">
+                <!-- Title -->
+                <h4 class="col mb-0 h4">Task #{{ element.id }}</h4>
+
+                <!-- Edit button -->
+                <b-button
+                  class="pl-2 pr-2 mr-2"
+                  variant="warning"
+                  @click="moveToNextCol(1, index)"
+                >
+                  <b-icon icon="pencil" aria-hidden="true"></b-icon>
+                </b-button>
+
+                <!-- Button whitch move card to next column -->
+                <b-button
+                  class="pl-2 pr-2"
+                  variant="success"
+                  @click="moveToNextCol(1, index)"
+                >
+                  <b-icon icon="check2-all" aria-hidden="true"></b-icon>
+                </b-button>
+              </div>
+
+              <!-- Task -->
+              <div class="row task">
+                <p class="col text-truncate mb-0">{{ element.task }}</p>
+              </div>
+              <div class="row date" v-if="element.beginTime">
+                {{ element.beginTime }}
+              </div>
             </div>
           </draggable>
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="p-2 alert alert-success">
-          <h3>Done</h3>
-          <draggable class="list-group" :list="arrDone" group="tasks">
+          <h2>Done ( {{ column[2].length }} )</h2>
+
+          <draggable class="list-group" :list="column[2]" group="tasks">
             <div
               class="list-group-item"
-              v-for="element in arrDone"
-              :key="element.name"
+              v-for="element in column[2]"
+              :key="element.task"
             >
-              {{ element.name }}
+              <h4>Task #{{ element.id }}</h4>
+              {{ element.task }}
             </div>
           </draggable>
         </div>
@@ -67,28 +138,79 @@ export default {
   components: {
     draggable,
   },
+
   data() {
     return {
       newTask: "",
-      arrPlan: [
-        { name: "Code signUpPage" },
-        { name: "Test Dash" },
-        { name: "Style registr" },
-        { name: "Designs" },
+      countOfTasks: 0,
+      column: [
+        [
+          {
+            id: 0,
+            task: "Add some new cards",
+            beginTime: 0,
+            endTime: 0,
+            worker: "Banana",
+          },
+        ],
+        [
+          {
+            id: 0,
+            task: "That in work",
+            beginTime: 0,
+            endTime: 0,
+            worker: "Banana",
+          },
+        ],
+        [
+          {
+            id: 0,
+            task: "That in done",
+            beginTime: {},
+            endTime: {},
+            worker: "Banana",
+          },
+        ],
       ],
-      arrInProgress: [],
-      arrDone: [],
     };
   },
+
   methods: {
     add() {
       if (this.newTask) {
-        this.arrPlan.push({ name: this.newTask });
+        this.countOfTasks++;
+        this.column[0].push({
+          id: this.countOfTasks,
+          task: this.newTask,
+          beginTime: {},
+          endTime: {},
+          worker: "Banana",
+        });
         this.newTask = "";
       }
+    },
+
+    moveToNextCol(columnNumber, elementId) {
+      var help = this.column[columnNumber].splice(elementId, 1);
+      this.column[columnNumber + 1].push(help[0]);
+
+      // if (columnNumber === 0) {
+      //   (columnNumber, elementId) => {
+      //     let date = new Date();
+      //     this.column[columnNumber].forEach((element) => {
+      //       if (element.id == elementId) {
+      //         element.beginTime = date.getHours();
+      //       }
+      //     });
+      //   };
+      // }
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.h4 {
+  line-height: 1.5;
+}
+</style>
