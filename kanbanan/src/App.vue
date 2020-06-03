@@ -7,7 +7,7 @@
           placeholder="Enter Task"
           @keyup.enter="add"
         />
-        <b-button class="ml-2" variant="warning" @click="add"> Add </b-button>
+        <b-button class="ml-2" variant="warning" @click="add">Add</b-button>
       </div>
 
       <div class="col mb-2">
@@ -19,15 +19,21 @@
         <b-modal id="modal-2" title="BootstrapVue">
           <p class="my-4">Hello from modal!</p>
         </b-modal>
-      </div> -->
+      </div>-->
     </div>
 
     <div class="row mt-3">
+      <!-- First column -->
       <div class="col-md-4">
         <div class="p-2 alert alert-primary">
           <h2>To Do ( {{ column[0].length }} )</h2>
 
-          <draggable class="list-group" :list="column[0]" group="tasks">
+          <draggable
+            class="list-group"
+            :list="column[0]"
+            group="tasks"
+            :move="setTime"
+          >
             <div
               class="list-group-item container"
               v-for="(element, index) in column[0]"
@@ -42,6 +48,8 @@
                   class="pl-2 pr-2 mr-2"
                   variant="warning"
                   @click="moveToNextCol(0, index)"
+                  v-b-tooltip.hover
+                  title="Edit"
                 >
                   <b-icon icon="pencil" aria-hidden="true"></b-icon>
                 </b-button>
@@ -51,6 +59,8 @@
                   class="pl-2 pr-2"
                   variant="success"
                   @click="moveToNextCol(0, index)"
+                  v-b-tooltip.hover
+                  title="Move to next col"
                 >
                   <b-icon icon="check2" aria-hidden="true"></b-icon>
                 </b-button>
@@ -65,6 +75,7 @@
         </div>
       </div>
 
+      <!-- Second column -->
       <div class="col-md-4">
         <div class="p-2 alert alert-warning">
           <h2>In Work ( {{ column[1].length }} )</h2>
@@ -84,6 +95,8 @@
                   class="pl-2 pr-2 mr-2"
                   variant="warning"
                   @click="moveToNextCol(1, index)"
+                  v-b-tooltip.hover
+                  title="Edit"
                 >
                   <b-icon icon="pencil" aria-hidden="true"></b-icon>
                 </b-button>
@@ -93,6 +106,8 @@
                   class="pl-2 pr-2"
                   variant="success"
                   @click="moveToNextCol(1, index)"
+                  v-b-tooltip.hover
+                  title="Move to next col"
                 >
                   <b-icon icon="check2-all" aria-hidden="true"></b-icon>
                 </b-button>
@@ -102,26 +117,80 @@
               <div class="row task">
                 <p class="col text-truncate mb-0">{{ element.task }}</p>
               </div>
-              <div class="row date" v-if="element.beginTime">
-                {{ element.beginTime }}
+              <div class="row worker" v-if="element.worker">
+                <p class="col mb-0">Worker: {{ element.worker }}</p>
+              </div>
+              <div class="row date">
+                <p class="col mb-0">
+                  Begin date: {{ element.dt.toLocaleString() }}
+                </p>
               </div>
             </div>
           </draggable>
         </div>
       </div>
 
+      <!-- Third column -->
       <div class="col-md-4">
         <div class="p-2 alert alert-success">
           <h2>Done ( {{ column[2].length }} )</h2>
 
           <draggable class="list-group" :list="column[2]" group="tasks">
             <div
-              class="list-group-item"
-              v-for="element in column[2]"
+              class="list-group-item container"
+              v-for="(element, index) in column[2]"
               :key="element.task"
             >
-              <h4>Task #{{ element.id }}</h4>
-              {{ element.task }}
+              <div class="row mb-3">
+                <!-- Title -->
+                <h4 class="col mb-0 h4">Task #{{ element.id }}</h4>
+
+                <!-- Edit button -->
+                <b-button
+                  class="pl-2 pr-2 mr-2"
+                  variant="warning"
+                  @click="moveToNextCol(2, index)"
+                  v-b-tooltip.hover
+                  title="Edit"
+                >
+                  <b-icon icon="pencil" aria-hidden="true"></b-icon>
+                </b-button>
+
+                <!-- Button whitch delete card -->
+                <!--  ! need to do delete function -->
+                <b-button
+                  class="pl-2 pr-2"
+                  variant="danger"
+                  @click="del(2, index)"
+                  v-b-tooltip.hover
+                  title="Delete card"
+                >
+                  <b-icon icon="x" aria-hidden="true"></b-icon>
+                </b-button>
+              </div>
+
+              <!-- Task -->
+              <div class="row task">
+                <p class="col text-truncate mb-0">{{ element.task }}</p>
+              </div>
+              <div class="row worker" v-if="element.worker">
+                <p class="col mb-0">Worker: {{ element.worker }}</p>
+              </div>
+              <div class="row date">
+                <p class="col mb-0">
+                  Begin date: {{ element.dt.toLocaleString() }}
+                </p>
+              </div>
+              <div class="row date-end">
+                <p class="col mb-0">
+                  Spent time:
+                  <!-- https://github.com/brockpetrie/vue-moment -->
+                  <!-- This function translate milliseconds to human time words -->
+                  <span>{{
+                    (new Date() - element.dt) | duration("humanize")
+                  }}</span>
+                </p>
+              </div>
             </div>
           </draggable>
         </div>
@@ -148,27 +217,24 @@ export default {
           {
             id: 0,
             task: "Add some new cards",
-            beginTime: 0,
-            endTime: 0,
             worker: "Banana",
+            dt: new Date(),
           },
         ],
         [
           {
             id: 0,
             task: "That in work",
-            beginTime: 0,
-            endTime: 0,
             worker: "Banana",
+            dt: new Date(),
           },
         ],
         [
           {
             id: 0,
             task: "That in done",
-            beginTime: {},
-            endTime: {},
             worker: "Banana",
+            dt: new Date(),
           },
         ],
       ],
@@ -176,15 +242,15 @@ export default {
   },
 
   methods: {
+    // Add new object to array
     add() {
       if (this.newTask) {
         this.countOfTasks++;
         this.column[0].push({
           id: this.countOfTasks,
           task: this.newTask,
-          beginTime: {},
-          endTime: {},
           worker: "Banana",
+          dt: new Date(),
         });
         this.newTask = "";
       }
@@ -193,17 +259,12 @@ export default {
     moveToNextCol(columnNumber, elementId) {
       var help = this.column[columnNumber].splice(elementId, 1);
       this.column[columnNumber + 1].push(help[0]);
+    },
 
-      // if (columnNumber === 0) {
-      //   (columnNumber, elementId) => {
-      //     let date = new Date();
-      //     this.column[columnNumber].forEach((element) => {
-      //       if (element.id == elementId) {
-      //         element.beginTime = date.getHours();
-      //       }
-      //     });
-      //   };
-      // }
+    setTime: function(evt) {
+      if (evt.draggedContext.element.task) {
+        evt.draggedContext.element.dt = new Date();
+      }
     },
   },
 };
