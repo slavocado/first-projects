@@ -2,11 +2,7 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col form-inline">
-        <b-form-input
-          v-model="newTask"
-          placeholder="Enter Task"
-          @keyup.enter="add"
-        />
+        <b-form-input v-model="newTask" placeholder="Enter Task" @keyup.enter="add" />
         <b-button class="ml-2" variant="warning" @click="add">Add</b-button>
       </div>
 
@@ -28,12 +24,7 @@
         <div class="p-2 alert alert-primary">
           <h2>To Do ( {{ column[0].length }} )</h2>
 
-          <draggable
-            class="list-group"
-            :list="column[0]"
-            group="tasks"
-            :move="setTime"
-          >
+          <draggable class="list-group" :list="column[0]" group="tasks" :move="setTime">
             <div
               class="list-group-item container"
               v-for="(element, index) in column[0]"
@@ -68,7 +59,7 @@
 
               <!-- Task -->
               <div class="row task">
-                <p class="col text-truncate mb-0">{{ element.task }}</p>
+                <p class="col text-truncate mb-2 h5">{{ element.task }}</p>
               </div>
             </div>
           </draggable>
@@ -115,14 +106,18 @@
 
               <!-- Task -->
               <div class="row task">
-                <p class="col text-truncate mb-0">{{ element.task }}</p>
+                <p class="col text-truncate mb-2 h5">{{ element.task }}</p>
               </div>
               <div class="row worker" v-if="element.worker">
-                <p class="col mb-0">Worker: {{ element.worker }}</p>
+                <p class="col mb-0">
+                  <u>Worker:</u>
+                  {{ element.worker }}
+                </p>
               </div>
               <div class="row date">
                 <p class="col mb-0">
-                  Begin date: {{ element.dt.toLocaleString() }}
+                  <u>Begin date:</u>
+                  {{ element.dt.toLocaleString() }}
                 </p>
               </div>
             </div>
@@ -161,7 +156,7 @@
                 <b-button
                   class="pl-2 pr-2"
                   variant="danger"
-                  @click="del(2, index)"
+                  @click="delCard(2, index)"
                   v-b-tooltip.hover
                   title="Delete card"
                 >
@@ -171,24 +166,30 @@
 
               <!-- Task -->
               <div class="row task">
-                <p class="col text-truncate mb-0">{{ element.task }}</p>
+                <p class="col text-truncate mb-2 h5">{{ element.task }}</p>
               </div>
               <div class="row worker" v-if="element.worker">
-                <p class="col mb-0">Worker: {{ element.worker }}</p>
+                <p class="col mb-0">
+                  <u>Worker:</u>
+                  {{ element.worker }}
+                </p>
               </div>
               <div class="row date">
                 <p class="col mb-0">
-                  Begin date: {{ element.dt.toLocaleString() }}
+                  <u>Begin date:</u>
+                  {{ element.dt.toLocaleString() }}
                 </p>
               </div>
               <div class="row date-end">
                 <p class="col mb-0">
-                  Spent time:
+                  <u>Spent time:</u>
                   <!-- https://github.com/brockpetrie/vue-moment -->
                   <!-- This function translate milliseconds to human time words -->
-                  <span>{{
+                  <span>
+                    {{
                     (new Date() - element.dt) | duration("humanize")
-                  }}</span>
+                    }}
+                  </span>
                 </p>
               </div>
             </div>
@@ -205,7 +206,7 @@ import draggable from "vuedraggable";
 export default {
   name: "App",
   components: {
-    draggable,
+    draggable
   },
 
   data() {
@@ -218,26 +219,26 @@ export default {
             id: 0,
             task: "Add some new cards",
             worker: "Banana",
-            dt: new Date(),
-          },
+            dt: new Date()
+          }
         ],
         [
           {
             id: 0,
             task: "That in work",
             worker: "Banana",
-            dt: new Date(),
-          },
+            dt: new Date()
+          }
         ],
         [
           {
             id: 0,
             task: "That in done",
             worker: "Banana",
-            dt: new Date(),
-          },
-        ],
-      ],
+            dt: new Date()
+          }
+        ]
+      ]
     };
   },
 
@@ -250,7 +251,7 @@ export default {
           id: this.countOfTasks,
           task: this.newTask,
           worker: "Banana",
-          dt: new Date(),
+          dt: new Date()
         });
         this.newTask = "";
       }
@@ -266,7 +267,11 @@ export default {
         evt.draggedContext.element.dt = new Date();
       }
     },
-  },
+
+    delCard(columnNumber, elementId) {
+      this.column[columnNumber].splice(elementId, 1);
+    }
+  }
 };
 </script>
 
