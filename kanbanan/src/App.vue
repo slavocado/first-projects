@@ -1,5 +1,52 @@
 <template>
   <div class="container mt-5">
+    <!-- The modal -->
+    <b-modal id="my-modal" @ok="okPressed">
+      <b-form>
+        <b-form-group id="input-group-2" label="Your task" label-for="input-2">
+          <b-form-input id="input-2" v-model="changed.task" required placeholder="Enter task"></b-form-input>
+        </b-form-group>
+
+        <label class="mr-sm-2" for="select-pref">Preference</label>
+        <b-form-select
+          id="select-pref"
+          class="mb-2 mr-sm-2 mb-sm-0"
+          :options="['To Do', 'In Work', 'Done']"
+          v-model="changed.status"
+        ></b-form-select>
+
+        <b-form-group
+          v-if="(changed.status == 'In Work' || changed.status == 'Done')"
+          id="input-group-3"
+          label="Worker"
+          label-for="input-3"
+        >
+          <b-form-input
+            id="input-3"
+            v-model="changed.worker"
+            required
+            placeholder="Enter worker name"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          v-if="(changed.status == 'In Work' || changed.status == 'Done')"
+          id="input-group-4"
+          label="Choose begin date"
+          label-for="datepicker"
+        >
+          <b-form-datepicker id="datepicker" v-model="changed.dt" class="mb-2"></b-form-datepicker>
+        </b-form-group>
+        <b-form-group
+          v-if="(changed.status == 'Done')"
+          id="input-group-5"
+          label="Choose end date"
+          label-for="datepicker-end"
+        >
+          <b-form-datepicker id="datepicker-end" v-model="changed.dt" class="mb-2"></b-form-datepicker>
+        </b-form-group>
+      </b-form>
+    </b-modal>
+
     <div class="row">
       <div class="col form-inline">
         <b-form-input v-model="newTask" placeholder="Enter Task" @keyup.enter="add" />
@@ -9,13 +56,6 @@
       <div class="col mb-2">
         <h1 class="text-right">Kanbanan 🍌</h1>
       </div>
-      <!-- <div>
-        <b-button v-b-modal.modal-2>Launch demo modal</b-button>
-
-        <b-modal id="modal-2" title="BootstrapVue">
-          <p class="my-4">Hello from modal!</p>
-        </b-modal>
-      </div>-->
     </div>
 
     <div class="row mt-3">
@@ -38,7 +78,7 @@
                 <b-button
                   class="pl-2 pr-2 mr-2"
                   variant="warning"
-                  @click="moveToNextCol(0, index)"
+                  v-b-modal="'my-modal'"
                   v-b-tooltip.hover
                   title="Edit"
                 >
@@ -71,7 +111,7 @@
         <div class="p-2 alert alert-warning">
           <h2>In Work ( {{ column[1].length }} )</h2>
 
-          <draggable class="list-group" :list="column[1]" group="tasks">
+          <draggable class="list-group" :list="column[1]" group="tasks" :move="setEndTime">
             <div
               class="list-group-item container"
               v-for="(element, index) in column[1]"
@@ -85,9 +125,9 @@
                 <b-button
                   class="pl-2 pr-2 mr-2"
                   variant="warning"
-                  @click="moveToNextCol(1, index)"
                   v-b-tooltip.hover
                   title="Edit"
+                  v-b-modal="'my-modal'"
                 >
                   <b-icon icon="pencil" aria-hidden="true"></b-icon>
                 </b-button>
@@ -144,15 +184,14 @@
                 <b-button
                   class="pl-2 pr-2 mr-2"
                   variant="warning"
-                  @click="moveToNextCol(2, index)"
                   v-b-tooltip.hover
                   title="Edit"
+                  v-b-modal="'my-modal'"
                 >
                   <b-icon icon="pencil" aria-hidden="true"></b-icon>
                 </b-button>
 
                 <!-- Button whitch delete card -->
-                <!--  ! need to do delete function -->
                 <b-button
                   class="pl-2 pr-2"
                   variant="danger"
@@ -187,7 +226,7 @@
                   <!-- This function translate milliseconds to human time words -->
                   <span>
                     {{
-                    (new Date() - element.dt) | duration("humanize")
+                    (element.endDt - element.dt) | duration("humanize")
                     }}
                   </span>
                 </p>
@@ -212,6 +251,13 @@ export default {
   data() {
     return {
       newTask: "",
+      changed: {
+        task: "",
+        status: "",
+        worker: "",
+        dt: new Date(),
+        endDt: new Date()
+      },
       countOfTasks: 0,
       column: [
         [
@@ -219,7 +265,8 @@ export default {
             id: 0,
             task: "Add some new cards",
             worker: "Banana",
-            dt: new Date()
+            dt: new Date(),
+            endDt: new Date()
           }
         ],
         [
@@ -227,7 +274,8 @@ export default {
             id: 0,
             task: "That in work",
             worker: "Banana",
-            dt: new Date()
+            dt: new Date(),
+            endDt: new Date()
           }
         ],
         [
@@ -235,7 +283,8 @@ export default {
             id: 0,
             task: "That in done",
             worker: "Banana",
-            dt: new Date()
+            dt: new Date(),
+            endDt: new Date()
           }
         ]
       ]
@@ -251,7 +300,8 @@ export default {
           id: this.countOfTasks,
           task: this.newTask,
           worker: "Banana",
-          dt: new Date()
+          dt: new Date(),
+          endDt: new Date()
         });
         this.newTask = "";
       }
@@ -268,8 +318,18 @@ export default {
       }
     },
 
+    setEndTime(evt) {
+      if (evt.draggedContext.element.task) {
+        evt.draggedContext.element.endDt = new Date();
+      }
+    },
+
     delCard(columnNumber, elementId) {
       this.column[columnNumber].splice(elementId, 1);
+    },
+
+    okPressed() {
+      console.log(22122);
     }
   }
 };
