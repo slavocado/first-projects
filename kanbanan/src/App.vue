@@ -4,12 +4,7 @@
     <b-modal id="my-modal" @ok="okPressed()">
       <b-form>
         <b-form-group id="input-group-2" label="Your task" label-for="input-2">
-          <b-form-input
-            id="input-2"
-            v-model="changed.task"
-            required
-            placeholder="Enter task"
-          ></b-form-input>
+          <b-form-input id="input-2" v-model="changed.task" required placeholder="Enter task"></b-form-input>
         </b-form-group>
 
         <label class="mr-sm-2" for="select-pref">Status</label>
@@ -65,11 +60,7 @@
 
     <div class="row">
       <div class="col form-inline">
-        <b-form-input
-          v-model="newTask"
-          placeholder="Enter Task"
-          @keyup.enter="add"
-        />
+        <b-form-input v-model="newTask" placeholder="Enter Task" @keyup.enter="add" />
         <b-button class="ml-2" variant="warning" @click="add">Add</b-button>
       </div>
 
@@ -84,12 +75,7 @@
         <div class="p-2 alert alert-primary">
           <h2>To Do ( {{ column[0].length }} )</h2>
 
-          <draggable
-            class="list-group"
-            :list="column[0]"
-            group="tasks"
-            :move="setTime"
-          >
+          <draggable class="list-group" :list="column[0]" group="tasks" :move="setTime">
             <div
               class="list-group-item container"
               v-for="(element, index) in column[0]"
@@ -137,12 +123,7 @@
         <div class="p-2 alert alert-warning">
           <h2>In Work ( {{ column[1].length }} )</h2>
 
-          <draggable
-            class="list-group"
-            :list="column[1]"
-            group="tasks"
-            :move="setEndTime"
-          >
+          <draggable class="list-group" :list="column[1]" group="tasks" :move="setEndTime">
             <div
               class="list-group-item container"
               v-for="(element, index) in column[1]"
@@ -257,9 +238,7 @@
                   <u>Spent time:</u>
                   <!-- https://github.com/brockpetrie/vue-moment -->
                   <!-- This function translate milliseconds to human time words -->
-                  <span>
-                    {{ (element.endDt - element.dt) | duration("humanize") }}
-                  </span>
+                  <span>{{ (element.endDt - element.dt) | duration("humanize") }}</span>
                 </p>
               </div>
             </div>
@@ -279,7 +258,7 @@ export default {
   name: "App",
   components: {
     draggable,
-    DatePicker,
+    DatePicker
   },
 
   data() {
@@ -292,7 +271,7 @@ export default {
         status: "",
         worker: "",
         dt: new Date(),
-        endDt: new Date(),
+        endDt: new Date()
       },
       countOfTasks: 2,
       column: [
@@ -302,8 +281,8 @@ export default {
             task: "Add some new cards",
             worker: "Banana",
             dt: new Date(),
-            endDt: new Date(),
-          },
+            endDt: new Date()
+          }
         ],
         [
           {
@@ -311,8 +290,8 @@ export default {
             task: "That in work",
             worker: "Banana",
             dt: new Date(),
-            endDt: new Date(),
-          },
+            endDt: new Date()
+          }
         ],
         [
           {
@@ -320,10 +299,10 @@ export default {
             task: "That in done",
             worker: "Banana",
             dt: new Date(),
-            endDt: new Date(),
-          },
-        ],
-      ],
+            endDt: new Date()
+          }
+        ]
+      ]
     };
   },
 
@@ -337,7 +316,7 @@ export default {
           task: this.newTask,
           worker: "Banana",
           dt: new Date(),
-          endDt: new Date(),
+          endDt: new Date()
         });
         this.newTask = "";
       }
@@ -346,6 +325,11 @@ export default {
     moveToNextCol(columnNumber, elementId) {
       var help = this.column[columnNumber].splice(elementId, 1);
       this.column[columnNumber + 1].push(help[0]);
+    },
+
+    moveToCol(nowColumnNumber, toColumnNumber, elementId) {
+      var help = this.column[nowColumnNumber].splice(elementId, 1);
+      this.column[toColumnNumber].push(help[0]);
     },
 
     setTime: function(evt) {
@@ -367,6 +351,14 @@ export default {
     setChosenEl(columnNumber, elementId) {
       this.changed.column = columnNumber;
       this.changed.id = elementId;
+
+      // copy info from card to modal inputs
+      let element = this.column[columnNumber][elementId];
+
+      this.changed.task = element.task;
+      this.changed.worker = element.worker;
+      this.changed.dt = element.dt;
+      this.changed.endDt = element.endDt;
     },
 
     okPressed() {
@@ -374,18 +366,24 @@ export default {
       let columnNumber = this.changed.column;
 
       let element = this.column[columnNumber][elementId];
-      console.log(element);
-
-      //! Status field ==============================================================================================
 
       element.task = this.changed.task;
       element.worker = this.changed.worker;
       element.dt = this.changed.dt;
       element.endDt = this.changed.endDt;
 
-      console.log(element);
-    },
-  },
+      // moves the card to the column corresponding to the status
+      if (this.changed.status == "To Do") {
+        this.moveToCol(columnNumber, 0, elementId);
+      }
+      if (this.changed.status == "In Work") {
+        this.moveToCol(columnNumber, 1, elementId);
+      }
+      if (this.changed.status == "Done") {
+        this.moveToCol(columnNumber, 2, elementId);
+      }
+    }
+  }
 };
 </script>
 
