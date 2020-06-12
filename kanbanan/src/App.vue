@@ -1,13 +1,18 @@
 <template>
   <div class="container mt-5">
     <!-- The modal -->
-    <b-modal id="my-modal" @ok="okPressed">
+    <b-modal id="my-modal" @ok="okPressed()">
       <b-form>
         <b-form-group id="input-group-2" label="Your task" label-for="input-2">
-          <b-form-input id="input-2" v-model="changed.task" required placeholder="Enter task"></b-form-input>
+          <b-form-input
+            id="input-2"
+            v-model="changed.task"
+            required
+            placeholder="Enter task"
+          ></b-form-input>
         </b-form-group>
 
-        <label class="mr-sm-2" for="select-pref">Preference</label>
+        <label class="mr-sm-2" for="select-pref">Status</label>
         <b-form-select
           id="select-pref"
           class="mb-2 mr-sm-2 mb-sm-0"
@@ -16,7 +21,7 @@
         ></b-form-select>
 
         <b-form-group
-          v-if="(changed.status == 'In Work' || changed.status == 'Done')"
+          v-if="changed.status == 'In Work' || changed.status == 'Done'"
           id="input-group-3"
           label="Worker"
           label-for="input-3"
@@ -29,27 +34,42 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          v-if="(changed.status == 'In Work' || changed.status == 'Done')"
+          v-if="changed.status == 'In Work' || changed.status == 'Done'"
           id="input-group-4"
           label="Choose begin date"
           label-for="datepicker"
         >
-          <b-form-datepicker id="datepicker" v-model="changed.dt" class="mb-2"></b-form-datepicker>
+          <date-picker
+            id="datepicker"
+            v-model="changed.dt"
+            type="datetime"
+            placeholder="Select date and time"
+          ></date-picker>
         </b-form-group>
+
         <b-form-group
-          v-if="(changed.status == 'Done')"
+          v-if="changed.status == 'Done'"
           id="input-group-5"
           label="Choose end date"
           label-for="datepicker-end"
         >
-          <b-form-datepicker id="datepicker-end" v-model="changed.dt" class="mb-2"></b-form-datepicker>
+          <date-picker
+            id="datepicker"
+            v-model="changed.endDt"
+            type="datetime"
+            placeholder="Select date and time"
+          ></date-picker>
         </b-form-group>
       </b-form>
     </b-modal>
 
     <div class="row">
       <div class="col form-inline">
-        <b-form-input v-model="newTask" placeholder="Enter Task" @keyup.enter="add" />
+        <b-form-input
+          v-model="newTask"
+          placeholder="Enter Task"
+          @keyup.enter="add"
+        />
         <b-button class="ml-2" variant="warning" @click="add">Add</b-button>
       </div>
 
@@ -64,7 +84,12 @@
         <div class="p-2 alert alert-primary">
           <h2>To Do ( {{ column[0].length }} )</h2>
 
-          <draggable class="list-group" :list="column[0]" group="tasks" :move="setTime">
+          <draggable
+            class="list-group"
+            :list="column[0]"
+            group="tasks"
+            :move="setTime"
+          >
             <div
               class="list-group-item container"
               v-for="(element, index) in column[0]"
@@ -79,6 +104,7 @@
                   class="pl-2 pr-2 mr-2"
                   variant="warning"
                   v-b-modal="'my-modal'"
+                  @click="setChosenEl(0, index)"
                   v-b-tooltip.hover
                   title="Edit"
                 >
@@ -111,7 +137,12 @@
         <div class="p-2 alert alert-warning">
           <h2>In Work ( {{ column[1].length }} )</h2>
 
-          <draggable class="list-group" :list="column[1]" group="tasks" :move="setEndTime">
+          <draggable
+            class="list-group"
+            :list="column[1]"
+            group="tasks"
+            :move="setEndTime"
+          >
             <div
               class="list-group-item container"
               v-for="(element, index) in column[1]"
@@ -127,6 +158,7 @@
                   variant="warning"
                   v-b-tooltip.hover
                   title="Edit"
+                  @click="setChosenEl(1, index)"
                   v-b-modal="'my-modal'"
                 >
                   <b-icon icon="pencil" aria-hidden="true"></b-icon>
@@ -186,6 +218,7 @@
                   variant="warning"
                   v-b-tooltip.hover
                   title="Edit"
+                  @click="setChosenEl(2, index)"
                   v-b-modal="'my-modal'"
                 >
                   <b-icon icon="pencil" aria-hidden="true"></b-icon>
@@ -225,9 +258,7 @@
                   <!-- https://github.com/brockpetrie/vue-moment -->
                   <!-- This function translate milliseconds to human time words -->
                   <span>
-                    {{
-                    (element.endDt - element.dt) | duration("humanize")
-                    }}
+                    {{ (element.endDt - element.dt) | duration("humanize") }}
                   </span>
                 </p>
               </div>
@@ -241,24 +272,29 @@
 
 <script>
 import draggable from "vuedraggable";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 
 export default {
   name: "App",
   components: {
-    draggable
+    draggable,
+    DatePicker,
   },
 
   data() {
     return {
       newTask: "",
       changed: {
+        id: 0,
+        column: 0,
         task: "",
         status: "",
         worker: "",
         dt: new Date(),
-        endDt: new Date()
+        endDt: new Date(),
       },
-      countOfTasks: 0,
+      countOfTasks: 2,
       column: [
         [
           {
@@ -266,28 +302,28 @@ export default {
             task: "Add some new cards",
             worker: "Banana",
             dt: new Date(),
-            endDt: new Date()
-          }
+            endDt: new Date(),
+          },
         ],
         [
           {
-            id: 0,
+            id: 1,
             task: "That in work",
             worker: "Banana",
             dt: new Date(),
-            endDt: new Date()
-          }
+            endDt: new Date(),
+          },
         ],
         [
           {
-            id: 0,
+            id: 2,
             task: "That in done",
             worker: "Banana",
             dt: new Date(),
-            endDt: new Date()
-          }
-        ]
-      ]
+            endDt: new Date(),
+          },
+        ],
+      ],
     };
   },
 
@@ -301,7 +337,7 @@ export default {
           task: this.newTask,
           worker: "Banana",
           dt: new Date(),
-          endDt: new Date()
+          endDt: new Date(),
         });
         this.newTask = "";
       }
@@ -328,10 +364,28 @@ export default {
       this.column[columnNumber].splice(elementId, 1);
     },
 
+    setChosenEl(columnNumber, elementId) {
+      this.changed.column = columnNumber;
+      this.changed.id = elementId;
+    },
+
     okPressed() {
-      console.log(22122);
-    }
-  }
+      let elementId = this.changed.id;
+      let columnNumber = this.changed.column;
+
+      let element = this.column[columnNumber][elementId];
+      console.log(element);
+
+      //! Status field ==============================================================================================
+
+      element.task = this.changed.task;
+      element.worker = this.changed.worker;
+      element.dt = this.changed.dt;
+      element.endDt = this.changed.endDt;
+
+      console.log(element);
+    },
+  },
 };
 </script>
 
