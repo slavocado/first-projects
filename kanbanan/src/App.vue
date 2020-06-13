@@ -58,14 +58,27 @@
       </b-form>
     </b-modal>
 
-    <div class="row">
-      <div class="col form-inline">
-        <b-form-input v-model="newTask" placeholder="Enter Task" @keyup.enter="add" />
-        <b-button class="ml-2" variant="warning" @click="add">Add</b-button>
-      </div>
+    <div class="row mb-2">
+      <b-form class="col-sm-12 col-md-6">
+        <div class="form-inline mb-2">
+          <b-form-input v-model="newTask" placeholder="Enter Task" @keyup.enter="add" />
+          <b-button class="ml-sm-2 mt-2 mt-sm-0 mr-4" variant="warning" @click="add">Add</b-button>
+        </div>
+        <b-form-checkbox
+          v-model="darkChecked"
+          name="check-button"
+          @change="toggleStyleLink()"
+          switch
+        >
+          <span v-if="!darkChecked">Light</span>
+          <span v-if="darkChecked">Dark</span>
+          mode
+          <b v-if="darkChecked">| Black lives matter</b>
+        </b-form-checkbox>
+      </b-form>
 
-      <div class="col mb-2">
-        <h1 class="text-right">Kanbanan 🍌</h1>
+      <div class="col-sm-12 col-md-6 mb-2">
+        <h1 class="text-md-right">Kanbanan 🍌</h1>
       </div>
     </div>
 
@@ -77,7 +90,7 @@
 
           <draggable class="list-group" :list="column[0]" group="tasks" :move="setTime">
             <div
-              class="list-group-item container"
+              class="list-group-item container dark"
               v-for="(element, index) in column[0]"
               :key="element.task"
             >
@@ -125,7 +138,7 @@
 
           <draggable class="list-group" :list="column[1]" group="tasks" :move="setEndTime">
             <div
-              class="list-group-item container"
+              class="list-group-item container dark"
               v-for="(element, index) in column[1]"
               :key="element.task"
             >
@@ -185,7 +198,7 @@
 
           <draggable class="list-group" :list="column[2]" group="tasks">
             <div
-              class="list-group-item container"
+              class="list-group-item container dark"
               v-for="(element, index) in column[2]"
               :key="element.task"
             >
@@ -264,6 +277,7 @@ export default {
   data() {
     return {
       newTask: "",
+      darkChecked: false,
       changed: {
         id: 0,
         column: 0,
@@ -382,6 +396,16 @@ export default {
       if (this.changed.status == "Done") {
         this.moveToCol(columnNumber, 2, elementId);
       }
+    },
+
+    toggleStyleLink() {
+      var link = document.getElementById("styleLink");
+
+      if (!this.darkChecked) {
+        link.href = "./style.css";
+      } else {
+        link.href = "";
+      }
     }
   }
 };
@@ -390,5 +414,8 @@ export default {
 <style>
 .h4 {
   line-height: 1.5;
+}
+body {
+  transition: 0.3s;
 }
 </style>

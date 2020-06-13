@@ -1,0 +1,8 @@
+body {
+  background-color: #343a40 !important;
+  color: aliceblue !important;
+}
+.dark {
+  color: aliceblue;
+  background-color: #343a40 !important;
+}
