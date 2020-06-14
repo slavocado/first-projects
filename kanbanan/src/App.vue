@@ -387,13 +387,13 @@ export default {
       element.endDt = this.changed.endDt;
 
       // moves the card to the column corresponding to the status
-      if (this.changed.status == "To Do") {
+      if (this.changed.status === "To Do") {
         this.moveToCol(columnNumber, 0, elementId);
       }
-      if (this.changed.status == "In Work") {
+      if (this.changed.status === "In Work") {
         this.moveToCol(columnNumber, 1, elementId);
       }
-      if (this.changed.status == "Done") {
+      if (this.changed.status === "Done") {
         this.moveToCol(columnNumber, 2, elementId);
       }
     },
