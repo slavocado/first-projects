@@ -33,6 +33,9 @@
         <b-form-radio v-model="startPlayer" name="some-radios" value="1">Игрок 1</b-form-radio>
         <b-form-radio v-model="startPlayer" name="some-radios" value="2">Игрок 2</b-form-radio>
       </b-form-group>
+
+      <label for="goal">Играем до: </label>
+      <b-form-input id="goal" v-model="inputGoalScore" type="number" min="11" max="21"></b-form-input>
     </b-container>
     <!--    End enter names of players and game settings  -->
     <hr>
@@ -41,8 +44,8 @@
       <b-row>
         <b-col>
           <h5 class="mt-4">Партия номер {{ batchNumber }}</h5>
-          <h5 v-if="startServerPlayNow">Подает start {{ startServer }}</h5>
-          <h5 v-if="!startServerPlayNow">Подает server {{ server }}</h5>
+          <h5 v-if="startServerPlayNow">Подает {{ startServer }}</h5>
+          <h5 v-if="!startServerPlayNow">Подает {{ server }}</h5>
           <b-progress :value="serviceNumber" :max="5" show-value animated height="1.5rem" class="mb-4"></b-progress>
         </b-col>
       </b-row>
@@ -101,6 +104,7 @@ export default {
       score1: 0,
       score2: 0,
       // Achieve goal score is a win
+      inputGoalScore: '',
       goalScore: 21,
     }
   },
@@ -149,6 +153,10 @@ export default {
           } else this.server = this.name1
         }
       }
+    },
+    // Change inputGoalScore to number
+    inputGoalScore: function (){
+      this.goalScore = Number(this.inputGoalScore)
     }
   }
 }
