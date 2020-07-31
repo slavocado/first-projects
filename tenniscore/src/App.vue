@@ -31,32 +31,36 @@
       </b-form-group>
     </b-container>
     <!--    End enter names of players  -->
-
+    <b-progress :value="3" :max="5" show-progress animated height="1.5rem"></b-progress>
     <!--    Main part   -->
     <b-container>
       <b-row>
         <!--  Column for first player scores  -->
-        <b-col v-if="name1">
+        <b-col v-if="name1" class="d-flex flex-column align-items-center">
           <h2>{{ name1 }}</h2>
-          <h2>{{ score1 }}</h2>
-          <b-button variant="success" class="mr-2" @click="score1++">
-            <b-icon icon="plus-square"></b-icon>
-          </b-button>
-          <b-button variant="danger" @click="score1--">
-            <b-icon icon="dash-square"></b-icon>
-          </b-button>
+          <h1>{{ score1 }}</h1>
+          <b-container class="d-flex align-items-center justify-content-center">
+            <b-button variant="success" class="mr-2" @click="score1++">
+              <b-icon icon="plus-square"></b-icon>
+            </b-button>
+            <b-button variant="danger" @click="score1--">
+              <b-icon icon="dash-square"></b-icon>
+            </b-button>
+          </b-container>
         </b-col>
 
         <!--  Column for second player scores  -->
-        <b-col v-if="name2">
+        <b-col v-if="name2"  class="d-flex flex-column align-items-center">
           <h2>{{ name2 }}</h2>
-          <h2>{{ score2 }}</h2>
-          <b-button variant="success" class="mr-2" @click="score2++">
-            <b-icon icon="plus-square"></b-icon>
-          </b-button>
-          <b-button variant="danger" @click="score2--">
-            <b-icon icon="dash-square"></b-icon>
-          </b-button>
+          <h1>{{ score2 }}</h1>
+          <b-container  class="d-flex align-items-center justify-content-center">
+            <b-button variant="success" class="mr-2" @click="score2++">
+              <b-icon icon="plus-square"></b-icon>
+            </b-button>
+            <b-button variant="danger" @click="score2--">
+              <b-icon icon="dash-square"></b-icon>
+            </b-button>
+          </b-container>
         </b-col>
       </b-row>
     </b-container>
