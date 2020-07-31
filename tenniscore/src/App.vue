@@ -53,10 +53,10 @@
         </b-col>
 
         <!--  Column for second player scores  -->
-        <b-col v-if="name2"  class="d-flex flex-column align-items-center">
+        <b-col v-if="name2" class="d-flex flex-column align-items-center">
           <h2>{{ name2 }}</h2>
           <h1>{{ score2 }}</h1>
-          <b-container  class="d-flex align-items-center justify-content-center">
+          <b-container class="d-flex align-items-center justify-content-center">
             <b-button variant="success" class="mr-2" @click="score2++">
               <b-icon icon="plus-square"></b-icon>
             </b-button>
@@ -68,27 +68,51 @@
       </b-row>
     </b-container>
     <!--    End main part   -->
+
+    <!--  Modal appears when someone wins  -->
+    <b-modal id="modal-1" title="BootstrapVue" centered>
+      <h2 class="my-4">{{ winner }} выиграл!</h2>
+    </b-modal>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
-  data: function (){
-    return{
+  data: function () {
+    return {
       name1: '',
       name2: '',
+      winner: '',
       score1: 0,
-      score2: 0
+      score2: 0,
+      // Achieve goal score is a win
+      goalScore: 21
     }
   },
   computed: {
     // Return number of the current step
     serviceNumber: function () {
-      if((this.score1 + this.score2) % 5 === 0){
+      if ((this.score1 + this.score2) % 5 === 0) {
         return 1
       } else return (this.score1 + this.score2) % 5 + 1
     }
+  },
+  watch: {
+    // Watch if one of the players wins
+    score1: function () {
+      if (this.score1 === this.goalScore) {
+        this.winner = this.name1
+        this.$bvModal.show('modal-1')
+      }
+    },
+    // Watch if one of the players wins
+    score2: function () {
+      if (this.score2 === this.goalScore) {
+        this.winner = this.name2
+        this.$bvModal.show('modal-1')
+      }
+    },
   }
 }
 </script>
