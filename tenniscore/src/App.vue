@@ -29,14 +29,23 @@
         ></b-form-input>
       </b-form-group>
 
-      <h5 class="mt-4">Подача номер</h5>
-      <b-progress :value="serviceNumber" :max="5" show-value animated height="1.5rem" class="mb-4"></b-progress>
-
+      <b-form-group label="Начинает">
+        <b-form-radio v-model="startPlayer" name="some-radios" value="1">Игрок 1</b-form-radio>
+        <b-form-radio v-model="startPlayer" name="some-radios" value="2">Игрок 2</b-form-radio>
+      </b-form-group>
     </b-container>
     <!--    End enter names of players and game settings  -->
-
+    <hr>
     <!--    Main part   -->
-    <b-container>
+    <b-container v-if="name1">
+      <b-row>
+        <b-col>
+          <h5 class="mt-4">Партия номер {{ batchNumber }}</h5>
+          <h5 v-if="startServerPlayNow">Подает start {{ startServer }}</h5>
+          <h5 v-if="!startServerPlayNow">Подает server {{ server }}</h5>
+          <b-progress :value="serviceNumber" :max="5" show-value animated height="1.5rem" class="mb-4"></b-progress>
+        </b-col>
+      </b-row>
       <b-row>
         <!--  Column for first player scores  -->
         <b-col v-if="name1" class="d-flex flex-column align-items-center">
@@ -83,11 +92,16 @@ export default {
     return {
       name1: '',
       name2: '',
+      // Who starts the game
+      startPlayer: '1',
+      startServerPlayNow: true,
+      // Who serve now
+      server: '',
       winner: '',
       score1: 0,
       score2: 0,
       // Achieve goal score is a win
-      goalScore: 21
+      goalScore: 21,
     }
   },
   computed: {
@@ -96,6 +110,13 @@ export default {
       if ((this.score1 + this.score2) % 5 === 0) {
         return 1
       } else return (this.score1 + this.score2) % 5 + 1
+    },
+
+    startServer: function () {
+      return this.startPlayer === '1' ? this.name1 : this.name2
+    },
+    batchNumber: function () {
+      return Math.floor((this.score1 + this.score2) / 5) + 1
     }
   },
   watch: {
@@ -113,6 +134,22 @@ export default {
         this.$bvModal.show('modal-1')
       }
     },
+    // Set server name due to batch number
+    // In simple words set name of the player who will serve now
+    batchNumber: function () {
+      this.startServerPlayNow = false
+      if (this.batchNumber !== 1) {
+        if (this.startPlayer === '1') {
+          if (this.batchNumber % 2 === 1) {
+            this.server = this.name1
+          } else this.server = this.name2
+        } else if (this.startPlayer === '2') {
+          if (this.batchNumber % 2 === 1) {
+            this.server = this.name2
+          } else this.server = this.name1
+        }
+      }
+    }
   }
 }
 </script>
