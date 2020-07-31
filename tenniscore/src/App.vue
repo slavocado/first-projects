@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <!--    Enter names of players  -->
+    <!--    Enter names of players and game settings  -->
     <b-container>
       <b-form-group
           id="input-group-1"
-          label="Имя 1:"
+          label="Имя первого игрока:"
           label-for="input-1"
+          class="mt-4"
       >
         <b-form-input
             id="input-1"
@@ -14,12 +15,10 @@
             placeholder="Имя"
         ></b-form-input>
       </b-form-group>
-    </b-container>
 
-    <b-container class="container">
       <b-form-group
           id="input-group-2"
-          label="Имя 2:"
+          label="Имя второго игрока:"
           label-for="input-2"
       >
         <b-form-input
@@ -29,9 +28,13 @@
             placeholder="Имя"
         ></b-form-input>
       </b-form-group>
+
+      <h5 class="mt-4">Подача номер</h5>
+      <b-progress :value="serviceNumber" :max="5" show-value animated height="1.5rem" class="mb-4"></b-progress>
+
     </b-container>
-    <!--    End enter names of players  -->
-    <b-progress :value="3" :max="5" show-progress animated height="1.5rem"></b-progress>
+    <!--    End enter names of players and game settings  -->
+
     <!--    Main part   -->
     <b-container>
       <b-row>
@@ -77,6 +80,14 @@ export default {
       name2: '',
       score1: 0,
       score2: 0
+    }
+  },
+  computed: {
+    // Return number of the current step
+    serviceNumber: function () {
+      if((this.score1 + this.score2) % 5 === 0){
+        return 1
+      } else return (this.score1 + this.score2) % 5 + 1
     }
   }
 }
