@@ -82,8 +82,9 @@
     <!--    End main part   -->
 
     <!--  Modal appears when someone wins  -->
-    <b-modal id="modal-1" title="BootstrapVue" centered>
-      <h2 class="my-4">{{ winner }} выиграл!</h2>
+    <b-modal id="modal-1" title="BootstrapVue" centered hide-footer hide-header>
+      <h2 class="my-4">{{ winner }} выиграл(a) 🎈✨🏓</h2>
+      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Отлично</b-button>
     </b-modal>
   </div>
 </template>
@@ -157,6 +158,11 @@ export default {
     // Change inputGoalScore to number
     inputGoalScore: function () {
       this.goalScore = Number(this.inputGoalScore)
+    }
+  },
+  methods: {
+    hideModal: function (){
+      this.$bvModal.hide('modal-1')
     }
   }
 }
