@@ -59,7 +59,7 @@
       </b-row>
       <b-row>
         <!--  Column for first player scores  -->
-        <b-col v-if="name1" class="d-flex flex-column align-items-center">
+        <b-col v-if="name1" class="d-flex flex-column align-items-center p-2 player-scores" :class="{ activeServer: startServerPlayNow }">
           <h2>{{ name1 }}</h2>
           <h1>{{ score1 }}</h1>
           <b-container class="d-flex align-items-center justify-content-center">
@@ -73,7 +73,7 @@
         </b-col>
 
         <!--  Column for second player scores  -->
-        <b-col v-if="name2" class="d-flex flex-column align-items-center">
+        <b-col v-if="name2" class="d-flex flex-column align-items-center p-2 player-scores" :class="{ activeServer: !startServerPlayNow }">
           <h2>{{ name2 }}</h2>
           <h1>{{ score2 }}</h1>
           <b-container class="d-flex align-items-center justify-content-center">
@@ -150,7 +150,7 @@ export default {
     // Set server name due to batch number
     // In simple words set name of the player who will serve now
     batchNumber: function () {
-      this.startServerPlayNow = false
+      this.startServerPlayNow = !this.startServerPlayNow
       if (this.batchNumber !== 1) {
         if (this.startPlayer === '1') {
           if (this.batchNumber % 2 === 1) {
@@ -180,5 +180,14 @@ export default {
 .collapsed > .when-open,
 .not-collapsed > .when-closed {
   display: none;
+}
+.player-scores{
+  border: transparent 1px solid;
+  border-radius: 10px;
+  transition: .4s;
+}
+.activeServer{
+  border: #007bff 1px solid;
+  background: #ebf5ff;
 }
 </style>
