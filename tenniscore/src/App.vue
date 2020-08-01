@@ -1,41 +1,49 @@
 <template>
   <div id="app">
     <!--    Enter names of players and game settings  -->
+    <b-collapse id="collapse-1" class="mt-2" visible >
+      <b-container>
+        <b-form-group
+            id="input-group-1"
+            label="Имя первого игрока:"
+            label-for="input-1"
+            class="mt-4"
+        >
+          <b-form-input
+              id="input-1"
+              v-model="name1"
+              type="text"
+              placeholder="Имя"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+            id="input-group-2"
+            label="Имя второго игрока:"
+            label-for="input-2"
+        >
+          <b-form-input
+              id="input-2"
+              v-model="name2"
+              type="text"
+              placeholder="Имя"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group label="Начинает">
+          <b-form-radio v-model="startPlayer" name="some-radios" value="1">Игрок 1</b-form-radio>
+          <b-form-radio v-model="startPlayer" name="some-radios" value="2">Игрок 2</b-form-radio>
+        </b-form-group>
+
+        <label for="goal">Играем до: </label>
+        <b-form-input id="goal" v-model="inputGoalScore" type="number" min="11" max="21"></b-form-input>
+      </b-container>
+    </b-collapse>
     <b-container>
-      <b-form-group
-          id="input-group-1"
-          label="Имя первого игрока:"
-          label-for="input-1"
-          class="mt-4"
-      >
-        <b-form-input
-            id="input-1"
-            v-model="name1"
-            type="text"
-            placeholder="Имя"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-          id="input-group-2"
-          label="Имя второго игрока:"
-          label-for="input-2"
-      >
-        <b-form-input
-            id="input-2"
-            v-model="name2"
-            type="text"
-            placeholder="Имя"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Начинает">
-        <b-form-radio v-model="startPlayer" name="some-radios" value="1">Игрок 1</b-form-radio>
-        <b-form-radio v-model="startPlayer" name="some-radios" value="2">Игрок 2</b-form-radio>
-      </b-form-group>
-
-      <label for="goal">Играем до: </label>
-      <b-form-input id="goal" v-model="inputGoalScore" type="number" min="11" max="21"></b-form-input>
+      <b-button v-b-toggle.collapse-1 variant="outline-primary" class="mt-2">
+        <span class="when-open">Свернуть</span><span class="when-closed">Развернуть</span> настройки
+        <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
+      </b-button>
     </b-container>
     <!--    End enter names of players and game settings  -->
     <hr>
@@ -55,10 +63,10 @@
           <h2>{{ name1 }}</h2>
           <h1>{{ score1 }}</h1>
           <b-container class="d-flex align-items-center justify-content-center">
-            <b-button variant="success" @click="score1++">
+            <b-button variant="success" size="lg" @click="score1++">
               <b-icon icon="plus-square"></b-icon>
             </b-button>
-            <b-button v-if="score1 > 0" variant="danger" @click="score1--" class="ml-2">
+            <b-button v-if="score1 > 0" variant="danger" size="lg" @click="score1--" class="ml-2">
               <b-icon icon="dash-square"></b-icon>
             </b-button>
           </b-container>
@@ -69,10 +77,10 @@
           <h2>{{ name2 }}</h2>
           <h1>{{ score2 }}</h1>
           <b-container class="d-flex align-items-center justify-content-center">
-            <b-button variant="success" @click="score2++">
+            <b-button variant="success" size="lg" @click="score2++">
               <b-icon icon="plus-square"></b-icon>
             </b-button>
-            <b-button v-if="score2 > 0" variant="danger" @click="score2--" class="ml-2">
+            <b-button v-if="score2 > 0" variant="danger" size="lg" @click="score2--" class="ml-2">
               <b-icon icon="dash-square"></b-icon>
             </b-button>
           </b-container>
@@ -169,4 +177,8 @@ export default {
 </script>
 
 <style>
+.collapsed > .when-open,
+.not-collapsed > .when-closed {
+  display: none;
+}
 </style>
