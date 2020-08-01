@@ -55,10 +55,10 @@
           <h2>{{ name1 }}</h2>
           <h1>{{ score1 }}</h1>
           <b-container class="d-flex align-items-center justify-content-center">
-            <b-button variant="success" class="mr-2" @click="score1++">
+            <b-button variant="success" @click="score1++">
               <b-icon icon="plus-square"></b-icon>
             </b-button>
-            <b-button variant="danger" @click="score1--">
+            <b-button v-if="score1 > 0" variant="danger" @click="score1--" class="ml-2">
               <b-icon icon="dash-square"></b-icon>
             </b-button>
           </b-container>
@@ -69,10 +69,10 @@
           <h2>{{ name2 }}</h2>
           <h1>{{ score2 }}</h1>
           <b-container class="d-flex align-items-center justify-content-center">
-            <b-button variant="success" class="mr-2" @click="score2++">
+            <b-button variant="success" @click="score2++">
               <b-icon icon="plus-square"></b-icon>
             </b-button>
-            <b-button variant="danger" @click="score2--">
+            <b-button v-if="score2 > 0" variant="danger" @click="score2--" class="ml-2">
               <b-icon icon="dash-square"></b-icon>
             </b-button>
           </b-container>
@@ -155,7 +155,7 @@ export default {
       }
     },
     // Change inputGoalScore to number
-    inputGoalScore: function (){
+    inputGoalScore: function () {
       this.goalScore = Number(this.inputGoalScore)
     }
   }
