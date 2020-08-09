@@ -1,5 +1,5 @@
 # kanbanan
-Project created with **vue**
+Project created with `vue`
 
 ## Project setup
 ```
