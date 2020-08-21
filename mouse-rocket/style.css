@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #040618;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rocket {
+    position: relative;
+    animation: animate 0.2s ease infinite;
+}
+
+@keyframes animate {
+    0%,100%{
+        transform: translateY(2px);
+    }
+    50%{
+        transform: translateY(-2px);
+    }
+}
