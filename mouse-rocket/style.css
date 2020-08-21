@@ -19,7 +19,6 @@
     position: relative;
     animation: animate 0.2s ease infinite;
 }
-
 @keyframes animate {
     0%,100%{
         transform: translateY(2px);
@@ -27,4 +26,26 @@
     50%{
         transform: translateY(-2px);
     }
+}
+
+.rocket::before{
+    content: '';
+    position: absolute;
+    bottom: -105px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100px;
+    width: 10px;
+    background: linear-gradient(#0bd7d7, transparent);
+}
+.rocket::after{
+    content: '';
+    position: absolute;
+    bottom: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100px;
+    width: 10px;
+    background: linear-gradient(#0bd7d7, transparent);
+    filter: blur(13px);
 }
