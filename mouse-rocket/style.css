@@ -53,6 +53,7 @@
     height: 100px;
     width: 10px;
     background: linear-gradient(#0bd7d7, transparent);
+    animation: flameMove .2s infinite;
 }
 .rocket::after{
     content: '';
@@ -64,4 +65,15 @@
     width: 10px;
     background: linear-gradient(#0bd7d7, transparent);
     filter: blur(13px);
+}
+
+@keyframes flameMove {
+    0%,100%{
+        height: 100px;
+        bottom: -120px;
+    }
+    50%{
+        height: 108px;
+        bottom: -128px;
+    }
 }
