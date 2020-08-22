@@ -1,3 +1,10 @@
+document.addEventListener('mousemove', e => {
+    const rocket = document.getElementsByClassName('rocket');
+
+    rocket[0].style.left = e.clientX + 'px';
+    rocket[0].style.top = e.clientY + 'px';
+})
+
 function stars() {
     let count = 50;
     const scene = document.querySelector('.scene');

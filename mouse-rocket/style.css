@@ -10,9 +10,6 @@
     height: 100vh;
     background: #040618;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .scene i{
@@ -31,29 +28,33 @@
 }
 
 .rocket {
-    position: relative;
+    position: absolute;
     animation: animate 0.2s ease infinite;
+    pointer-events: none;
     z-index: 10;
+    user-select: none;
 }
 @keyframes animate {
     0%,100%{
-        transform: translateY(2px);
+        transform: translateY(-52px) translateX(-50%);
     }
     50%{
-        transform: translateY(-2px);
+        transform: translateY(-48px) translateX(-50%);
     }
 }
 
+/*main flame*/
 .rocket::before{
     content: '';
     position: absolute;
-    bottom: -105px;
+    bottom: -205px;
     left: 50%;
     transform: translateX(-50%);
-    height: 100px;
+    height: 200px;
     width: 10px;
-    background: linear-gradient(#0bd7d7, transparent);
+    background: linear-gradient(rgb(20, 213, 239), rgba(0, 0, 0, 0));
     animation: flameMove .2s infinite;
+    filter: blur(4px);
 }
 .rocket::after{
     content: '';
@@ -63,17 +64,22 @@
     transform: translateX(-50%);
     height: 100px;
     width: 10px;
-    background: linear-gradient(#0bd7d7, transparent);
+    background: linear-gradient(rgb(20, 213, 239), rgba(0, 0, 0, 0));
     filter: blur(13px);
 }
 
 @keyframes flameMove {
     0%,100%{
-        height: 100px;
-        bottom: -120px;
+        height: 200px;
+        bottom: -220px;
     }
     50%{
-        height: 108px;
-        bottom: -128px;
+        height: 215px;
+        bottom: -235px;
     }
+}
+
+.scene:active .rocket::before,
+.scene:active .rocket::after{
+    background: linear-gradient(rgb(20, 213, 239), rgb(205, 32, 232), rgba(0, 0, 0, 0));
 }
