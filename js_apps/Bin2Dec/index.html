@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bin2Dec</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <div class="form-group mt-4">
+        <label for="input">Enter binary number</label>
+        <input type="email" class="form-control" id="input" placeholder="1010101001">
+    </div>
+    <button class="btn btn-primary" id="button">Convert to decimal</button>
+
+    <h1 class="mt-4">Result: <span class="h1" id="result"></span></h1>
+</div>
+
+<script>
+
+    const input = document.querySelector('#input');
+    const result = document.querySelector('#result');
+    const button = document.querySelector('#button');
+
+    input.oninput = function () {
+        let bin = input.value;
+        let dec = 0;
+
+        for (let i = bin.length - 1; i >= 0; i--) {
+            if (parseInt(bin[i]) === 0 || parseInt(bin[i]) === 1) {
+                dec += parseInt(bin[i]) * Math.pow(2, bin.length - 1 - i)
+            } else {
+                dec = 'Enter BINARY number!!';
+                break
+            }
+        }
+
+        result.innerText = dec;
+    };
+</script>
+</body>
+</html>
