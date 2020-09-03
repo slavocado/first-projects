@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap');
+
 *{
     margin: 0;
     padding: 0;
@@ -15,10 +17,18 @@ body{
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(45deg, #0f0c29, #302b63);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    font-family: 'Josefin Sans', sans-serif;
+    color: white;
+}
+
+h1{
+    font-size: 40px;
+    margin-bottom: 3rem;
 }
 
 .dashed-square{
@@ -63,4 +73,17 @@ input[type=range]:focus {
     height: 100%;
     background-image: linear-gradient(60deg, #00dbde 0%, #fc00ff 100%);
     border-radius: 66% 34% 24% 76% / 53% 38% 62% 47% ;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    margin-top: 4rem;
+    font-size: 25px;
+}
+#property-shower{
+    padding: 20px 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #08101c;
+    margin-left: 2rem;
 }
