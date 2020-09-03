@@ -82,8 +82,20 @@ input[type=range]:focus {
     font-size: 25px;
 }
 #property-shower{
-    padding: 20px 10px;
-    background-color: rgba(255, 255, 255, 0.5);
+    padding: 0.5em 1.5em;
+    background-color: rgba(255, 255, 255, 0.8);
     color: #08101c;
-    margin-left: 2rem;
+    margin-left: 1rem;
+}
+.copy{
+    background-color: #00dbde;
+    height: 100%;
+    padding: 0.5em 1em;
+    transition: .4s;
+    color: #0f0c29;
+}
+.copy:hover{
+    cursor: pointer;
+    background-color: #fc00ff;
+    color: white;
 }

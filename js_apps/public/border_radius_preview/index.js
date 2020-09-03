@@ -38,3 +38,12 @@ function changeBorder() {
     borderChanger.style.borderRadius = borderRad;
     propertyShower.innerText = borderRad;
 }
+
+function copyProp() {
+    navigator.clipboard.writeText(propertyShower.innerText).then(() => {
+        alert("Copied text: " + propertyShower.innerText);
+    })
+        .catch(err => {
+            console.log('Something went wrong ', err);
+        });
+}
