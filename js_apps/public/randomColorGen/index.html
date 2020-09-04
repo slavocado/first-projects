@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tap to get new color!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="color">
+    <span class="text"></span>
+    <div class="button" onclick="getNewColor()">Get New Color</div>
+    <div class="button" onclick="startTimer()">Begin auto change</div>
+</div>
+
+<script>
+    getNewColor()
+
+    function getNewColor() {
+        let symbols = '0123456789ABCDEF';
+        let color = '#';
+
+        for (let i = 0; i < 6; i++) {
+                color = color + symbols[Math.floor(Math.random()*16)];
+        }
+
+        document.querySelector('.color').style.background = color;
+        document.querySelector('.text').innerText = color;
+    }
+
+    function startTimer() {
+        setInterval(getNewColor, 2000)
+    }
+
+</script>
+</body>
+</html>
