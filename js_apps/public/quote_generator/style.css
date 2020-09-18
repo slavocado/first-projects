@@ -1,0 +1,86 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    font-family: 'Raleway', sans-serif;
+}
+
+header{
+    text-align: right;
+    padding: 2rem 4rem;
+}
+header .random{
+    display: inline-flex;
+    align-items: center;
+}
+header .random:hover{
+    cursor: pointer;
+}
+
+main{
+    display: grid;
+    place-items: center;
+}
+
+.container{
+    max-width: 610px;
+}
+
+.container .quote-text{
+    font-size: 36px;
+    position: relative;
+    margin-bottom: 5vh;
+}
+
+.container .quote-text:before{
+    content: '';
+    position: absolute;
+    left: -50px;
+    width: 8px;
+    height: 100%;
+    background-color: #F7DF94;
+}
+
+.container .quote-info{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+            'author arrow'
+            'genre  arrow';
+    padding: 50px 30px;
+    background-color: #fff;
+    transition: .4s;
+    align-items: center;
+}
+
+.container .quote-info:hover{
+    background-color: #333;
+    color: #F2F2F2;
+    cursor: pointer;
+}
+
+.container .quote-info .author{
+    grid-area: author;
+    font-weight: 700;
+    font-size: 24px;
+}
+.container .quote-info .genre{
+    grid-area: genre;
+}
+.container .quote-info .arrow{
+    grid-area: arrow;
+    align-self: center;
+    text-align: end;
+}
+
+footer {
+    padding: 1rem;
+    text-align: center;
+}
