@@ -10,10 +10,19 @@ body{
     font-family: 'Podkova', serif;
     min-height: 100vh;
     display: grid;
-    place-items: center;
+    grid-template-rows: 1fr 1fr 50px;
+    justify-items: center;
     background: #f4debe;
     color: #4d675a;
     overflow: hidden;
+}
+
+.heading{
+    font-size: 3rem;
+    align-self: end;
+    margin-bottom: 4rem;
+    opacity: 1;
+    transition: .4s;
 }
 
 .container{
@@ -24,6 +33,10 @@ body{
     font-size: 2rem;
     white-space: nowrap;
     position: relative;
+}
+
+footer{
+    text-align: center;
 }
 
 .frame{
