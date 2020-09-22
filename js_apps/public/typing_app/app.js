@@ -8,40 +8,51 @@ document.addEventListener('keydown', event => {
     let key = event.key;
 
     //Check if user begin typing
-    if (step === 0){heading.style.opacity = 0;}
-
-    // Check if user ended typing
-    if(step === text.length - 1){
-        heading.style.opacity = 1;
-        heading.innerText = 'Good work!🎈🎉✨'
+    if (step === 0) {
+        heading.style.opacity = 0;
     }
 
-    if (key === text.charAt(step)){
+    // Check if user ended typing
+    if (step === text.length - 1) {
+        heading.style.opacity = 1;
+        heading.innerText = 'Good work!🎈🎉✨';
+        setTimeout(() => {
+            prepareForNewRound()
+        }, 1000)
+    }
+
+    if (key === text.charAt(step)) {
         // if right key pressed
         step++;
-        moveLine();
+        lineMehods.move(step);
         frame.style.borderColor = '#53aa5d';
         addAndRemoveClass(frame, 'pop', 50)
-    } else if (!event.shiftKey){
+    } else if (!event.shiftKey) {
         // if wrong key pressed
         frame.style.borderColor = '#e86666';
         addAndRemoveClass(frame, 'shake', 500)
     }
 })
 
-function fillLine(text) {
-    for (let index = 0; index < text.length; index++) {
-        line.innerHTML += `<div class="letter">${text[index]}</div>`
+let lineMehods = {
+    // fills line with letters from text
+    fill: function (text) {
+        for (let index = 0; index < text.length; index++) {
+            line.innerHTML += `<div class="letter">${text[index]}</div>`
+        }
+    },
+    clear: function () {
+        line.innerHTML = '';
+    },
+    // move all line block to the left
+    move: function (steps) {
+        line.style.left = `calc(50% - ${4 * steps}rem)`;
     }
 }
 
-function moveLine(){
-    line.style.left = `calc(50% - ${4 * step}rem)`;
-}
-
-function addAndRemoveClass(element, className, timeout){
+function addAndRemoveClass(element, className, timeout) {
     element.classList.add(className);
-    setTimeout(()=>{
+    setTimeout(() => {
         element.classList.remove(className);
     }, timeout)
 }
@@ -54,7 +65,19 @@ async function getRandomQuote() {
 
 getRandomQuote().then(r => {
     text = r.quote.quoteText;
-    fillLine(text)
+    lineMehods.fill(text);
 });
 
-
+function prepareForNewRound() {
+    if (confirm('Get new text and continue typing?')) {
+        step = 0;
+        lineMehods.clear();
+        getRandomQuote().then(r => {
+            text = r.quote.quoteText;
+            lineMehods.fill(text);
+        });
+        heading.innerText = 'Start typing';
+        lineMehods.move(0);
+        frame.style.borderColor = '#000';
+    }
+}
