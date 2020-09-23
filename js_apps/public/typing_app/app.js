@@ -1,6 +1,9 @@
 const frame = document.querySelector('.frame');
 const line = document.querySelector('.line');
 const heading = document.querySelector('.heading');
+const stats = document.querySelector('.end-screen');
+const restart = document.querySelector('.restart');
+const timeElement = document.querySelector('#time');
 let text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam animi distinctio dolor doloribus ex exercitationem harum hic id ipsam magni maiores officia, placeat';
 let step = 0;
 
@@ -10,15 +13,22 @@ document.addEventListener('keydown', event => {
     //Check if user begin typing
     if (step === 0) {
         heading.style.opacity = 0;
+
+        if (!stopWatch.isWorking){
+            stopWatch.isWorking = true;
+            stopWatch.start();
+        }
     }
 
     // Check if user ended typing
     if (step === text.length - 1) {
         heading.style.opacity = 1;
         heading.innerText = 'Good work!🎈🎉✨';
-        setTimeout(() => {
-            prepareForNewRound()
-        }, 1000)
+        stopWatch.stop();
+        timeElement.innerText = `${stopWatch.minutes} mins ${stopWatch.seconds} seconds`;
+        setTimeout(()=>{
+            stats.classList.add('end-screen-down');
+        },1000);
     }
 
     if (key === text.charAt(step)) {
@@ -50,6 +60,28 @@ let lineMehods = {
     }
 }
 
+let stopWatch = {
+    seconds: 0,
+    minutes: 0,
+    isWorking: false,
+    interval: null,
+    // function which counts seconds and minutes
+    start: function () {
+        this.interval = setInterval(()=>{
+            this.seconds++
+
+            if (this.seconds === 60){
+                this.seconds = 0;
+                this.minutes++;
+            }
+        }, 1000)
+    },
+    stop: function () {
+        clearInterval(this.interval);
+        this.isWorking = false;
+    }
+}
+
 function addAndRemoveClass(element, className, timeout) {
     element.classList.add(className);
     setTimeout(() => {
@@ -68,16 +100,16 @@ getRandomQuote().then(r => {
     lineMehods.fill(text);
 });
 
+
 function prepareForNewRound() {
-    if (confirm('Get new text and continue typing?')) {
-        step = 0;
-        lineMehods.clear();
-        getRandomQuote().then(r => {
-            text = r.quote.quoteText;
-            lineMehods.fill(text);
-        });
-        heading.innerText = 'Start typing';
-        lineMehods.move(0);
-        frame.style.borderColor = '#000';
-    }
+    step = 0;
+    lineMehods.clear();
+    getRandomQuote().then(r => {
+        text = r.quote.quoteText;
+        lineMehods.fill(text);
+    });
+    heading.innerText = 'Start typing';
+    lineMehods.move(0);
+    frame.style.borderColor = '#000';
+    stats.classList.remove('end-screen-down');
 }
