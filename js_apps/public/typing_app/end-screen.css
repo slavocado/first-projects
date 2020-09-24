@@ -8,7 +8,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    background-color: #f5aa5f;
+    background-color: #4d675a;
+    color: #f4debe;
     font-size: 3rem;
     transition: .8s ease-out;
 }
@@ -30,8 +31,8 @@
 
 .restart{
     font-family: 'Podkova', serif;
-    background: #4d675a;
-    color: #f5aa5f;
+    background: #f4debe;
+    color: #4d675a;
     padding: 1rem 2rem;
     font-size: 2rem;
     font-weight: 500;
