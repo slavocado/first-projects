@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Podkova:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="end-screen.css">
 </head>
 <body>
 
-<h1 class="heading">Start typing</h1>
+<h1 class="heading">
+    <div class="spinner-border" role="status" id="loader">
+        <span class="sr-only">Loading...</span>
+    </div>
+</h1>
 
 <div class="container">
     <div class="frame"></div>
@@ -28,10 +33,10 @@
             <span class="word">duration:</span>
             <span class="value" id="time">1:00</span>
         </div>
-<!--        <div class="info speed">-->
-<!--            <span class="word">speed</span>-->
-<!--            <span class="value">29</span>-->
-<!--        </div>-->
+        <div class="info speed">
+            <span class="word">speed</span>
+            <span class="value" id="speed">29</span>
+        </div>
     </div>
     <div class="restart" onclick="prepareForNewRound()">Restart</div>
 </div>
