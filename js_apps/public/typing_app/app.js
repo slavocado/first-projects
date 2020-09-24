@@ -3,46 +3,8 @@ const line = document.querySelector('.line');
 const heading = document.querySelector('.heading');
 const stats = document.querySelector('.end-screen');
 const restart = document.querySelector('.restart');
-const timeElement = document.querySelector('#time');
 let text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam animi distinctio dolor doloribus ex exercitationem harum hic id ipsam magni maiores officia, placeat';
 let step = 0;
-
-document.addEventListener('keydown', event => {
-    let key = event.key;
-
-    //Check if user begin typing
-    if (step === 0) {
-        heading.style.opacity = 0;
-
-        if (!stopWatch.isWorking){
-            stopWatch.isWorking = true;
-            stopWatch.start();
-        }
-    }
-
-    // Check if user ended typing
-    if (step === text.length - 1) {
-        heading.style.opacity = 1;
-        heading.innerText = 'Good work!🎈🎉✨';
-        stopWatch.stop();
-        timeElement.innerText = `${stopWatch.minutes} mins ${stopWatch.seconds} seconds`;
-        setTimeout(()=>{
-            stats.classList.add('end-screen-down');
-        },1000);
-    }
-
-    if (key === text.charAt(step)) {
-        // if right key pressed
-        step++;
-        lineMehods.move(step);
-        frame.style.borderColor = '#53aa5d';
-        addAndRemoveClass(frame, 'pop', 50)
-    } else if (!event.shiftKey) {
-        // if wrong key pressed
-        frame.style.borderColor = '#e86666';
-        addAndRemoveClass(frame, 'shake', 500)
-    }
-})
 
 let lineMehods = {
     // fills line with letters from text
@@ -64,13 +26,13 @@ let stopWatch = {
     seconds: 0,
     minutes: 0,
     isWorking: false,
-    interval: null,
+    interval: null, //variable for setInterval
     // function which counts seconds and minutes
     start: function () {
-        this.interval = setInterval(()=>{
+        this.interval = setInterval(() => {
             this.seconds++
 
-            if (this.seconds === 60){
+            if (this.seconds === 60) {
                 this.seconds = 0;
                 this.minutes++;
             }
@@ -80,6 +42,15 @@ let stopWatch = {
         clearInterval(this.interval);
         this.isWorking = false;
     }
+}
+
+let statistics = {
+    timeElement: document.querySelector('#time'),
+    accuracyElement: document.querySelector('#accuracy'),
+    typos: 0,
+    calculateAccuracy: function (totalLetters) {
+        return Math.floor(100 - (this.typos / totalLetters * 100)); // in percents
+    },
 }
 
 function addAndRemoveClass(element, className, timeout) {
@@ -113,3 +84,42 @@ function prepareForNewRound() {
     frame.style.borderColor = '#000';
     stats.classList.remove('end-screen-down');
 }
+
+document.addEventListener('keydown', event => {
+    let key = event.key;
+
+    //Check if user begin typing
+    if (step === 0) {
+        heading.style.opacity = 0;
+
+        if (!stopWatch.isWorking) {
+            stopWatch.isWorking = true;
+            stopWatch.start();
+        }
+    }
+
+    // Check if user ended typing
+    if (step === 5) {
+        heading.style.opacity = 1;
+        heading.innerText = 'Good work!🎈🎉✨';
+        stopWatch.stop();
+        statistics.timeElement.innerText = `${stopWatch.minutes} mins ${stopWatch.seconds} seconds`;
+        statistics.accuracyElement.innerText = statistics.calculateAccuracy(text.length) + '%';
+        setTimeout(() => {
+            stats.classList.add('end-screen-down');
+        }, 1000);
+    }
+
+    if (key === text.charAt(step)) {
+        // if right key pressed
+        step++;
+        lineMehods.move(step);
+        frame.style.borderColor = '#53aa5d';
+        addAndRemoveClass(frame, 'pop', 50)
+    } else if (!event.shiftKey) {
+        // if wrong key pressed
+        frame.style.borderColor = '#e86666';
+        addAndRemoveClass(frame, 'shake', 500);
+        statistics.typos++;
+    }
+})
