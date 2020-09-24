@@ -1,0 +1,19 @@
+.my-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.my-container .number{
+    width: 4rem;
+    outline: none;
+}
+
+.my-second-container{
+    display: none;
+    /*display: flex;*/
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
