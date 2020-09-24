@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Learn to count</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container mt-5 mr-5 ml-5" id="settings">
+
+    <div class="field">
+        <label class="label">Минимальное число</label>
+        <div class="control">
+            <input class="input" id="min-number" type="number" value="0" min="0">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Максимальное число</label>
+        <div class="control">
+            <input class="input" id="max-number" type="number" value="15" min="0">
+        </div>
+    </div>
+
+    <div class="control">
+        <button class="button is-link has-background-primary" id="begin" onclick="beginGame()">Начать</button>
+    </div>
+</div>
+
+<div class="container my-second-container" id="exercise">
+    <div class="mt-5 mr-5 ml-5 colunms my-container">
+        <span class="is-size-2" id="text">1 + 2 =</span>
+        <input class="number is-size-3" type="text" id="answer">
+    </div>
+    <button class="button is-link mt-4 has-background-primary" id="check" onclick="checkAnswer()">Проверить</button>
+    <button class="button is-link mt-4 has-background-danger" id="stop" onclick="stopGame()">Стоп</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
