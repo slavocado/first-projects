@@ -25,7 +25,7 @@ body{
     transition: .4s;
 }
 
-.container{
+.wrapper{
     width: 100%;
     height: 4rem;
     border-top: 1px solid #7c7c7c;
