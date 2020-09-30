@@ -1,6 +1,7 @@
 const digits = document.querySelector('.digits');
 const answers = document.querySelectorAll('.answer');
 const answersWrapper = document.querySelector('.answers');
+const colorChangers = document.querySelectorAll('.color-change');
 
 let min = 0;
 let max = 10;
@@ -8,6 +9,7 @@ let x;
 let y;
 let sign;
 const signs = ['+', '-'];
+const colors = ['red', 'green', 'blue'];
 
 let generate = {
     randInt: function (minNum, maxMun) {
@@ -46,6 +48,10 @@ function addAndRemoveClass(element, className, timeout) {
     }, timeout)
 }
 
+let rand = generate.randInt(0, 2);
+colorChangers.forEach(changer => {
+    changer.classList.add(colors[rand])
+})
 
 digits.innerHTML = generate.exercise();
 generate.answers();
