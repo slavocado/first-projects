@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Учимся считать</title>
-    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Fredoka+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Fredoka+One&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-
 <div class="container">
-    <section class="main-field blue color-change">
+    <section class="settings">
+        <div class="setting">
+            <div class="setting-name color-change">
+                Минимальное слагаемое: <span id="setting-number-min">0</span>
+            </div>
+            <input class="color-change" type="range" value="0" min="0" max="50" id="min"/>
+        </div>
+        <div class="setting">
+            <div class="setting-name color-change">
+                Максимальное слагаемое: <span id="setting-number-max">20</span>
+            </div>
+            <input class="color-change" type="range" value="20" min="0" max="50" id="max"/>
+        </div>
+        <div class="line" id="line-settings" onclick="onLineClick()">
+            <span class="color-change"></span>
+        </div>
+    </section>
 
+    <section class="main-field blue color-change">
         <div class="digits">
-            <span class="digit">5</span><span class="digit">+</span><span class="digit">4</span>
+            <span class="digit">5</span><span class="digit">+</span
+        ><span class="digit">4</span>
         </div>
 
         <div class="answers">
@@ -24,10 +45,10 @@
                 <span class="answer blue color-change">9</span>
             </div>
         </div>
-
     </section>
 </div>
 
+<script src="settings.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

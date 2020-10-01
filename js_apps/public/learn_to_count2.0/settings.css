@@ -1,0 +1,104 @@
+.settings{
+    position: absolute;
+    top: calc(-100vh + 2rem + 6px);
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    height: 100vh;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(0px);
+    padding: 4rem 2rem 2rem;
+    transition: .4s;
+    border-radius: 0px 0px 40px 40px;
+}
+
+.show{
+    top: 0;
+    backdrop-filter: blur(10px);
+}
+
+.line{
+    position: absolute;
+    bottom: 0;
+    padding: 1rem;
+}
+
+.line span{
+    display: block;
+    width: 50px;
+    height: 6px;
+    border-radius: 10px;
+}
+
+.line:hover{
+    cursor: pointer;
+}
+
+.setting{
+    max-width: 300px;
+    padding-bottom: 3rem;
+    font-size: 24px;
+}
+
+.setting-name{
+    padding: 1rem;
+    border-radius: 20px;
+}
+
+/*Color theming for inputs*/
+input[type=range].blue::-webkit-slider-runnable-track{
+    background: #56B4F9;
+}
+input[type=range].blue::-webkit-slider-thumb{
+    background: #E2F1F9;
+}
+input[type=range].green::-webkit-slider-runnable-track{
+    background: #8BCED2;
+}
+input[type=range].green::-webkit-slider-thumb{
+    background: #014D7D;
+}
+input[type=range].red::-webkit-slider-runnable-track{
+    background: #F95454;
+}
+input[type=range].red::-webkit-slider-thumb{
+    background: #F1E7C7;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    transform: scale(1.05);
+}
+
+/*change default inputs appearance*/
+input[type=range] {
+    height: 26px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+    background: transparent;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 0px solid #000000;
+    transition: .4s;
+
+}
+input[type=range]::-webkit-slider-thumb {
+    border: 0px solid #000000;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+}
+
+
