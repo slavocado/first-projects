@@ -1,7 +1,9 @@
 import React from "react";
+import RellaxWrapper from "react-rellax-wrapper";
 import './features.css';
 
-const Features = () => (
+
+const Features = ({rocketFeatures}) => (
     <section className="features">
         <h2 className="features-title">
             Falcon 1 <br/>Overview
@@ -15,7 +17,7 @@ const Features = () => (
                 <thead>
                 <tr>
                     <td className="table-column">HEIGHT</td>
-                    <td className="table-column">22.25 m / 73 ft</td>
+                    <td className="table-column">20.68 m / 75.5 ft </td>
                 </tr>
                 <tr>
                     <td className="table-column">DIAMETER</td>
@@ -31,12 +33,13 @@ const Features = () => (
                 </tr>
                 </thead>
             </table>
-            <img
-                src="img/falcon-1.png"
-                alt="rocket"
-                className="rocket"
-                data-rellax-speed="14"
-            />
+            <RellaxWrapper speed={14}>
+                <img
+                    src="img/falcon-1.png"
+                    alt="rocket"
+                    className="rocket"
+                />
+            </RellaxWrapper>
             <article>
                 <h3 className="features-subtitle">DESCRIPTION</h3>
                 <p className="features-text">
