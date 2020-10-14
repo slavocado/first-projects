@@ -1,6 +1,5 @@
 import React from "react";
 import './features.css';
-import photo from "../../img/falcon-1.png";
 
 const Features = () => (
     <section className="features">
@@ -33,7 +32,7 @@ const Features = () => (
                 </thead>
             </table>
             <img
-                src={photo} // !!!!!!!!!! didnt work
+                src="img/falcon-1.png"
                 alt="rocket"
                 className="rocket"
                 data-rellax-speed="14"
