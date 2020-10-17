@@ -1,3 +1,6 @@
+# I created this project on React workshop and this is my first meet with React
+App can be found there [React SpaceX App](https://react-spasex.web.app/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
