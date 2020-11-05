@@ -25,7 +25,7 @@ function DeleteWord ({wordData}) {
 
     return(
         <>
-            <Button variant="danger" onClick={handleShow}>
+            <Button variant="danger" onClick={handleShow} className='mr-2'>
                 Delete
             </Button>
 

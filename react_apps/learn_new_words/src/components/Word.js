@@ -10,7 +10,7 @@ function Word(props) {
     return (
         <>
             <Row className='justify-content-between'>
-                <h2>{name}</h2>
+                <h2 className='ml-2'>{name}</h2>
                 <div>
                     <EditModal wordData={{name, translation, transcription, id}}/>
                     <DeleteWord wordData={{name, translation, transcription, id}}/>

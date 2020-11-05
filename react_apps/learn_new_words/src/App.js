@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <section>
-          <Container>
+          <Container className='mt-4'>
               {user ? <Main/> : <SignIn/>}
           </Container>
       </section>

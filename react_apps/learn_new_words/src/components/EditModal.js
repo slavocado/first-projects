@@ -29,7 +29,7 @@ function EditModal({wordData}) {
 
     return (
         <>
-            <Button variant="warning" onClick={handleShow}>
+            <Button variant="warning" onClick={handleShow} className='mr-2'>
                 Edit
             </Button>
 

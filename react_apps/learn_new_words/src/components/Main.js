@@ -6,11 +6,11 @@ import AddWord from "./AddWord";
 
 function Main () {
     return(
-        <>
+        <div>
             <SignOut/>
             <AddWord/>
             <DataList/>
-        </>
+        </div>
     )
 }
 
