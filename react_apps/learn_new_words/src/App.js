@@ -1,12 +1,14 @@
 import React from 'react'
 import './App.css';
-import {projectFirestore, auth} from "./firebase";
+import {auth} from "./firebase";
 
-import {useCollectionData} from "react-firebase-hooks/firestore";
 import {useAuthState} from "react-firebase-hooks/auth";
 
 import SignIn from "./components/SignIn";
-import SignOut from "./components/SignOut";
+import Main from "./components/Main";
+
+import Container from "react-bootstrap/Container";
+
 
 function App() {
 
@@ -15,8 +17,9 @@ function App() {
   return (
     <div className="App">
       <section>
-        {/*{user ? <MainPage/> : <SignIn/>}*/}
-          {user ? <SignOut/> : <SignIn/>}
+          <Container>
+              {user ? <Main/> : <SignIn/>}
+          </Container>
       </section>
     </div>
   );
