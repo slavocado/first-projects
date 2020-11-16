@@ -1,6 +1,9 @@
-const container = document.querySelector('.number');
+const numberText = document.querySelector('.number');
 const speedInput = document.querySelector('#speed-input');
 const speedInputLabel = document.querySelector('#speed-input-label');
+const useNumberNames = document.querySelector('#use-number-names');
+const gameText = document.querySelector('#game-text');
+const numbersRow = document.querySelector('#numbers-row');
 
 const fromNumber = 1;
 const toNumber = 90;
@@ -29,8 +32,10 @@ const numberNames = [
 
 
 let delay = 2000
+let gameMoveNumber = 0;
 
 let arr = [];
+let sayedNumbers = [];
 for (let i = fromNumber; i <= toNumber; i++) {
     arr.push(i)
 }
@@ -54,37 +59,57 @@ function shuffle(arr) {
     return arr;
 }
 
-shuffle(arr)
-
 function startGame() {
-    let i = 0;
-    container.innerText = 'Приготовились';
+    shuffle(arr)
+    gameMoveNumber = 0;
+    gameText.innerText = 'Приготовились';
+
+    startInterval();
+}
+
+function startInterval() {
     interval = setInterval(() => {
-        if (i < toNumber) {
-            container.innerText = arr[i];
+        if (gameMoveNumber < toNumber) {
+            gameText.innerText = '';
+            numberText.innerText = arr[gameMoveNumber];
+            sayedNumbers.push(arr[gameMoveNumber]);
 
             let utterance;
+            let numberName
 
-            let numberName = numberNames.find(names => names.number === arr[i])
+            // if user select checkbox "use number names"
+            if (useNumberNames.value === 'on'){
+                numberName = numberNames.find(names => names.number === arr[gameMoveNumber])
+            }
             if (numberName){
-                let name = numberName.name;
-                utterance = new SpeechSynthesisUtterance(name);
+                utterance = new SpeechSynthesisUtterance(numberName.name);
                 utterance.rate = 1.2;
             } else {
-                utterance = new SpeechSynthesisUtterance(arr[i]);
+                utterance = new SpeechSynthesisUtterance(arr[gameMoveNumber]);
                 utterance.rate = 1;
             }
-
             speechSynthesis.speak(utterance);
-            i++
+            gameMoveNumber++
         } else {
-            container.innerText = 'Игра завершилась';
-            clearInterval(interval);
+            endGame();
         }
     }, delay)
 }
 
-function stopGame() {
+function pauseGame() {
     clearInterval(interval);
-    container.innerText = 'Игра завершилась';
+    numberText.innerText = '';
+    gameText.innerText = 'Пауза';
+    numbersRow.innerText = sayedNumbers.join(' ')
+}
+
+function resumeGame() {
+    startInterval()
+    gameText.innerText = '';
+}
+
+function endGame() {
+    clearInterval(interval);
+    numberText.innerText = '';
+    gameText.innerText = 'Игра закончилась';
 }
