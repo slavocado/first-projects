@@ -1,4 +1,5 @@
-# tenniscore
+# Project whitch I create for help count ping pong score while my family playin in ping pong
+
 Project created with `vue`
 
 ## Project setup
