@@ -112,4 +112,5 @@ function endGame() {
     clearInterval(interval);
     numberText.innerText = '';
     gameText.innerText = 'Игра закончилась';
+    sayedNumbers = [];
 }
