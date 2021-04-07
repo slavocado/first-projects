@@ -6,6 +6,7 @@ function generateAndPut(){
     const maxNumber = parseInt(document.querySelector('#max-number').value);
     const isAddition = document.querySelector('#addition').checked;
     const isSubtraction = document.querySelector('#subtraction').checked;
+    const isMultiplication = document.querySelector('#multiplication').checked;
     const signs = [];
 
     if (Number.isNaN(minNumber)){
@@ -17,11 +18,12 @@ function generateAndPut(){
         return ;
     }
 
-    // Add singn which must be in exercises
+    // Add sign which must be in exercises
     if (isAddition){ signs.push('+') }
     if (isSubtraction){ signs.push('-') }
+    if (isMultiplication){ signs.push('*') }
     if (signs.length === 0){
-        alert('Ender one or more operations');
+        alert('Enter one or more operations');
         return ;
     }
 
@@ -30,16 +32,24 @@ function generateAndPut(){
         let exercises = '';
 
         for (let i = 0; i < numOfExercises; i++) {
-            let firstRand = randInt(minNumber,maxNumber);
-            let secondRand = randInt(minNumber,maxNumber);
+            const sign = randSign(signs);
+            let firstRand = 0;
+            let secondRand = 0;
 
-            if (firstRand < secondRand){
-                [firstRand, secondRand] = [secondRand, firstRand]
+            if (sign === '*'){
+                firstRand = randInt(0, 10);
+                secondRand = randInt(0, 10);
+            } else {
+                firstRand = randInt(minNumber,maxNumber);
+                secondRand = randInt(minNumber,maxNumber);
+                if (firstRand < secondRand){
+                    [firstRand, secondRand] = [secondRand, firstRand]
+                }
             }
 
             exercises +=
                 `<div class="container is-size-3">
-                    ${firstRand} ${randSign(signs)} ${secondRand} =
+                    ${firstRand} ${sign} ${secondRand} =
                 </div>`;
         }
 
