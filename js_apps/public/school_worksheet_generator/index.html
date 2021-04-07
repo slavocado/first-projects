@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Worksheet Generator</title>
+    <title>Создатель примеров</title>
     <link rel="stylesheet" href="print.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 </head>
@@ -12,52 +12,74 @@
 <section class="section">
     <div class="container mb-6 no-print">
         <h1 class="title is-2">
-            Worksheet Generator
+            Создатель прмеров
         </h1>
         <p class="subtitle is-6">
             Made with Bulma by Slavocado
         </p>
     </div>
+
+<!-- Addition and subtraction section -->
     <div class="container has-background-light px-4 py-4 no-print">
        <div class="columns">
 
            <div class="field column">
-               <label class="label">Min number</label>
+               <label class="label">Минимальное число (+-)</label>
                <div class="control">
-                   <input class="input" type="number" placeholder="Min number" id="min-number" min="0" value="0">
+                   <input class="input" type="number" placeholder="Минимальное число (+-)" id="min-add-sub-number" min="0" value="0">
                </div>
            </div>
 
            <div class="field column">
-               <label class="label">Max number</label>
+               <label class="label">Максимальное число (+-)</label>
                <div class="control">
-                   <input class="input" type="number" placeholder="Max number" id="max-number" min="0" value="30">
+                   <input class="input" type="number" placeholder="Максимальное число (+-)" id="max-add-sub-number" min="0" value="30">
+               </div>
+           </div>
+
+           <div class="field column">
+               <label class="label">Минимальное число (*)</label>
+               <div class="control">
+                   <input class="input" type="number" placeholder="Минимальное число (*)" id="min-mult-number" min="0" value="0">
+               </div>
+           </div>
+
+           <div class="field column">
+               <label class="label">Максимальное число (*)</label>
+               <div class="control">
+                   <input class="input" type="number" placeholder="Максимальное число (*)" id="max-mult-number" min="0" value="10">
                </div>
            </div>
 
            <div class="column">
-               <label class="label">Include operations:</label>
+               <label class="label">Включить операции:</label>
                <div class="field">
                    <label class="checkbox">
                        <input type="checkbox" id="addition" checked>
-                       Addition (+)
+                       Сложение (+)
                    </label>
                </div>
                <div class="field">
                    <label class="checkbox">
                        <input type="checkbox" id="subtraction">
-                       Subtraction (-)
+                       Вычитание (-)
+                   </label>
+               </div>
+               <div class="field">
+                   <label class="checkbox">
+                       <input type="checkbox" id="multiplication">
+                       Умножение (*)
                    </label>
                </div>
            </div>
        </div>
         <div class="field">
             <div class="control">
-                <button class="button is-link" onclick="generateAndPut()">Generate</button>
+                <button class="button is-link" onclick="generateAndPut()">Сгенерировать</button>
             </div>
         </div>
-
     </div>
+
     <div class="container has-background-light mt-4 px-4 py-4">
         <div class="columns">
             <div class="column col-1"></div>
