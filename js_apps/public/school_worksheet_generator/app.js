@@ -2,20 +2,34 @@ const numOfExercises = 10;
 const numOfCols = 4
 
 function generateAndPut(){
-    const minNumber = parseInt(document.querySelector('#min-number').value);
-    const maxNumber = parseInt(document.querySelector('#max-number').value);
+    const minAddSubNumber = parseInt(document.querySelector('#min-add-sub-number').value);
+    const maxAddSubNumber = parseInt(document.querySelector('#max-add-sub-number').value);
+
+    const minMultNumber = parseInt(document.querySelector('#min-mult-number').value);
+    const maxMultNumber = parseInt(document.querySelector('#max-mult-number').value);
+
     const isAddition = document.querySelector('#addition').checked;
     const isSubtraction = document.querySelector('#subtraction').checked;
     const isMultiplication = document.querySelector('#multiplication').checked;
     const signs = [];
 
-    if (Number.isNaN(minNumber)){
-        alert('Enter min number');
+    if (Number.isNaN(minAddSubNumber)){
+        alert('Enter min number (+-)');
         return ;
     }
-    if (Number.isNaN(maxNumber)){
-        alert('Enter max number');
+    if (Number.isNaN(maxAddSubNumber)){
+        alert('Enter max number (+-)');
         return ;
+    }
+    if (isMultiplication){
+        if (Number.isNaN(minMultNumber)){
+            alert('Enter min number (*)');
+            return ;
+        }
+        if (Number.isNaN(maxMultNumber)){
+            alert('Enter max number (*)');
+            return ;
+        }
     }
 
     // Add sign which must be in exercises
@@ -37,11 +51,11 @@ function generateAndPut(){
             let secondRand = 0;
 
             if (sign === '*'){
-                firstRand = randInt(0, 10);
+                firstRand = randInt(minMultNumber, maxMultNumber);
                 secondRand = randInt(0, 10);
             } else {
-                firstRand = randInt(minNumber,maxNumber);
-                secondRand = randInt(minNumber,maxNumber);
+                firstRand = randInt(minAddSubNumber,maxAddSubNumber);
+                secondRand = randInt(minAddSubNumber,maxAddSubNumber);
                 if (firstRand < secondRand){
                     [firstRand, secondRand] = [secondRand, firstRand]
                 }
